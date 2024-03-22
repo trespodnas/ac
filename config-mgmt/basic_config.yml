@@ -1,0 +1,18 @@
+- name : RHEL Basic config
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Stop and disable firewalld
+      service:
+        name: firewalld
+        state: stopped
+        enabled: False
+    - name: Update RHEL after deployment
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+      register: updated
+    - name: Reboot after update
+      ansible.builtin.reboot:
+        reboot_timeout: 3600
+

@@ -14,8 +14,8 @@ module "acas_servers" {
   source                  = "./modules/az-vms"
   for_each                = local.vm_specs
   vm_name                 = each.key
-  resource_group_name     = var.resource_group_name
-  resource_group_location = var.resource_group_location
+  resource_group_name     = azurerm_resource_group.main.name
+  resource_group_location = azurerm_resource_group.main.location
   vm_size                 = each.value.size
   existing_subnet_name    = var.existing_subnet_name
   existing_vnet_name      = var.existing_vnet_name

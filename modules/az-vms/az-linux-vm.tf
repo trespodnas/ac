@@ -23,7 +23,6 @@ resource "azurerm_network_interface" "main" {
     private_ip_address_allocation = var.vm_nic_ip_conf_settings
     subnet_id                     = data.azurerm_subnet.existing_subnet_name.id
   }
-  depends_on = [var.resource_group_name]
 }
 
 resource "azurerm_linux_virtual_machine" "main" {
@@ -54,6 +53,8 @@ resource "azurerm_linux_virtual_machine" "main" {
     command = "ansible-playbook -i ${azurerm_linux_virtual_machine.main.private_ip_address}, config-mgmt/basic_config.yml"
   }
 }
+
+
 
 
 

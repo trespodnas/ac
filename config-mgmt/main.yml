@@ -1,0 +1,9 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Include RHEL basic config playbook
+      ansible.builtin.import_playbook:
+        name: basic_config.yml
+    - name: Implement high level STIG for RHEL (RHEL8 STIG v1 r13)
+      ansible.builtin.import_role:
+        name: rhel8STIG

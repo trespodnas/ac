@@ -1,18 +1,16 @@
-- name : RHEL Basic config
-  hosts: all
-  gather_facts: false
+#- name : RHEL Basic config
+#  hosts: all
+#  gather_facts: false
+#  become: yes
   tasks:
-    - name: Stop and disable firewalld
-      service:
-        name: firewalld
-        state: stopped
-        enabled: False
-    - name: Update RHEL after deployment
+    - name: Check/install for updates after deployment
+      when: ansible_os_family == "Redhat"
       ansible.builtin.dnf:
         name: "*"
         state: latest
       register: updated
     - name: Reboot after update
       ansible.builtin.reboot:
+        when: updated is changed
         reboot_timeout: 3600
 

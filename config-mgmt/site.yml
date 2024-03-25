@@ -1,0 +1,2 @@
+---
+- import_playbook: basic_config.yml

@@ -4,14 +4,12 @@
   become: yes
   tasks:
     - name: Check/install for updates after deployment
-      when: ansible_os_family == "Redhat"
+      when: ansible_os_family == 'Redhat'
       ansible.builtin.dnf:
         name: "*"
         state: latest
-        register: update_applied
-    - name: Reboot after update
+    - name: Reboot after updates
       ansible.builtin.reboot:
-        when: update_applied is changed
         reboot_timeout: 3600
     - name: Run high level STIG for RHEL8 (v1r13)
       import_role:

@@ -50,7 +50,7 @@ resource "azurerm_linux_virtual_machine" "main" {
     storage_account_type = var.vm_disk_type
   }
   provisioner "local-exec" {
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user ${var.vm_admin_username} --become-user root -i ${azurerm_linux_virtual_machine.main.private_ip_address}, config-mgmt/main.yml"
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user ${var.vm_admin_username} --become-user root -i ${azurerm_linux_virtual_machine.main.private_ip_address}, config-mgmt/site.yml"
   }
 }
 

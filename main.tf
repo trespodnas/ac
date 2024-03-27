@@ -26,10 +26,3 @@ module "acas_servers" {
   vm_image_sku            = var.vm_image_sku
   vm_image_version        = var.vm_image_version
 }
-
-
-
-#resource "local_file" "vm_ips" {
-#  filename = "${module.acas_servers}/mydata.json"
-#  content  = jsonencode(local.output_data.ip_addresses)
-#}

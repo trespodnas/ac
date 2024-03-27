@@ -1,8 +1,13 @@
 ---
 - name: basic acas configuration
   hosts: all
+  strategy: free
   become: yes
   tasks:
+    - name: Wait for vm/nic to come up
+      wait_for_connection:
+        delay: 30
+        timeout: 300
     - name: Check/install for updates after deployment
       when: ansible_os_family == 'Redhat'
       ansible.builtin.dnf:
@@ -14,3 +19,6 @@
     - name: Run high level STIG for RHEL8 (v1r13)
       import_role:
         name: rhel8STIG
+    - name: Reboot after STIG
+      ansible.builtin.reboot:
+        reboot_timeout: 3600

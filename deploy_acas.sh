@@ -1,10 +1,29 @@
 #!/usr/bin/env sh
 
+IP_PARSER='get_ips.py'
 IP_FILE='ips.json'
-TERRAFORM=`which terraform`
-pyCat=`cat ips.json| python -c 'import json,sys;print(json.load(sys.stdin)["vm_private_ips"]["value"])'`
-# Clean up
-#[ -e $IP_FILE ] && rm -- $IP_FILE && printf "removed existing file (cleanup): $IP_FILE\n"
+TERRAFORM=$(which terraform)
+TFVARS='terraform.tfvars'
 
-#for ips in `$pyCat`;do printf $ips;done
-echo $pyCat
+
+check_dependencies () {
+  if [ ! -f $IP_FILE ]; then
+  echo "Required file is missing: $IP_FILE"
+  exit 1
+fi
+  if [ ! -f $IP_PARSER ]; then
+  echo "Required file is missing: $IP_PARSER"
+  exit 1
+fi
+  if [ ! -n "${TERRAFORM}" ]; then
+  echo "Required dependency is missing: terraform"
+  exit 1
+fi
+}
+
+kickoff_teraform () {
+  $TERRAFORM init . && $TERRAFORM -f
+}
+
+
+check_dependencies

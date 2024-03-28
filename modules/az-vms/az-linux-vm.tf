@@ -1,12 +1,3 @@
-#provider "azurerm" {
-#  features {}
-#}
-
-
-
-#data "azurerm_resource_group" "existing_vnet_rg" {
-#  name = var.existing_vnet_rg
-#}
 
 data "azurerm_subnet" "existing_subnet_name" {
   name                 = var.existing_subnet_name
@@ -48,9 +39,6 @@ resource "azurerm_linux_virtual_machine" "main" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = var.vm_disk_type
-  }
-  provisioner "local-exec" {
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user ${var.vm_admin_username} --become-user root -i ${azurerm_linux_virtual_machine.main.private_ip_address}, config-mgmt/site.yml"
   }
 }
 

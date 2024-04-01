@@ -1,0 +1,32 @@
+---
+- name: configure security center host
+  hosts: all
+  become: yes
+  tasks:
+    - name: make temp dir for software
+      ansible.builtin.file:
+        path: /home/acas/install_tmp
+        owner: acas
+        group: acas
+        mode: '0700'
+    - name: copy sc install/rpm to host
+      src: ../tenable_files_repo/CM-296116_SecurityCenter-6.1.1-el8.x86_64.rpm
+      dest: /home/acas/install_tmp
+      owner: acas
+      group: acas
+      mode: '0700'
+    - name: install SC from local repo
+      ansible.builtin.dnf:
+        name: /home/acas/install_temp/CM-296116_SecurityCenter-6.1.1-el8.x86_64.rpm
+        state: present
+    - name: enable securityCenter daemon to start at boot and start service
+      ansible.builtin.systemd_service:
+        name: "Security Center"
+        state: started
+        enabled: true
+    - name: add firewall rule for security center
+      ansible.posix.firewalld:
+        service: https
+        permanent: true
+        state: enabled
+

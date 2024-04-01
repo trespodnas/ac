@@ -8,17 +8,20 @@
       wait_for_connection:
         delay: 30
         timeout: 300
-    - name: Check/install for updates after deployment
+    - name: check/install for updates after deployment
       when: ansible_os_family == 'Redhat'
       ansible.builtin.dnf:
         name: "*"
         state: latest
-    - name: Reboot after updates
+    - name: remove any un-needed files after system updates
+      ansible.builtin.dnf:
+        autoremove: yes
+    - name: reboot after updates
       ansible.builtin.reboot:
         reboot_timeout: 3600
-    - name: Run high level STIG for RHEL8 (v1r13)
+    - name: run high level STIG for RHEL8 (v1 r13)
       import_role:
         name: rhel8STIG
-    - name: Reboot after STIG
+    - name: reboot after STIG
       ansible.builtin.reboot:
         reboot_timeout: 3600

@@ -1,0 +1,3 @@
+---
+sc_software: CM-296116_SecurityCenter-6.1.1-el8.x86_64.rpm
+scan_software: CM303208_Nessus-10.7.0-es8.x86_64.rpm

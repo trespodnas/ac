@@ -1,6 +1,6 @@
 locals {
   vm_specs = {
-    "dilz-acas-prod-sc-ugv-1" = {
+    "dilz-acas-prod-securitycenter-ugv-1" = {
       location = "eastus"
       size     = "Standard_D8s_v3"
     }

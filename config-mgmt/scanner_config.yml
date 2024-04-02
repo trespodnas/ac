@@ -14,7 +14,7 @@
         state: present
     - name: add firewall rule for scanner
       ansible.posix.firewalld:
-        port: 8443/tcp
+        port: 8834/tcp
         permanent: true
         state: enabled
     - name: restart firewalld

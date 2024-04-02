@@ -65,7 +65,7 @@ check_if_ansible_is_installed () {
 }
 
 kick_off_general_config_and_baseline_stig () {
-  SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i $ALL_IPS config-mgmt/basic.yml
+  SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i $ALL_IPS config-mgmt/basic_config.yml
 }
 
 ## run area

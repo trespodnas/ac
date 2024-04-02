@@ -1,0 +1,19 @@
+# Naming for vm nics
+prefix = "dilz"
+infix = "acas"
+postfix = "ugv"
+# RG creation info
+resource_group_name     = ""
+resource_group_location = ""
+# Existing vnet info
+existing_vnet_name      = ""
+existing_vnet_rg        = ""
+existing_subnet_name    = ""
+# Vm details
+vm_admin_username   = "acas"
+vm_image_offer_name = "RHEL-RAW"
+vm_image_pub_name   = "RedHat"
+vm_image_sku        = "88-gen2"
+vm_image_version    = "latest"
+
+

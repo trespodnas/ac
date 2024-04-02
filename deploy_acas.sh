@@ -35,7 +35,7 @@ gather_terraform_output () {
 }
 
 create_venv_if_not_exist () {
-  if [ ! -d $PYTHON_VENV_PATH ]; then
+  if [ ! -d "$PYTHON_VENV_PATH" ]; then
   $PYTHON -m venv "$HOME/.venv"
   else
     echo "venv check passed: $PYTHON_VENV_PATH"
@@ -43,7 +43,7 @@ create_venv_if_not_exist () {
 }
 
 activate_venv () {
-  if [ -d $PYTHON_VENV_PATH ]; then
+  if [ -d "$PYTHON_VENV_PATH" ]; then
   . "$HOME/.venv/bin/activate"
   fi
 }
@@ -69,6 +69,16 @@ kick_off_general_config_and_baseline_stig () {
   SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$ALL_IPS" config-mgmt/basic_config.yml
 }
 
+kick_off_securitycenter_install () {
+  . "$HOME/.venv/bin/activate"
+  SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$SC_IP" config-mgmt/sc_config.yml
+}
+
+kick_off_nessus_install () {
+  . "$HOME/.venv/bin/activate"
+  SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$SCANNER_IPS" config-mgmt/scanner_config.yml
+}
+
 ## run area
 check_dependencies
 create_venv_if_not_exist
@@ -78,3 +88,5 @@ check_if_ansible_is_installed
 kickoff_terraform
 gather_terraform_output
 kick_off_general_config_and_baseline_stig
+kick_off_securitycenter_install
+kick_off_nessus_install

@@ -6,7 +6,12 @@
     - name: copy file/rpm to host
       ansible.builtin.copy:
         src: ../tenable_files_repo/{{ scan_software }}
-        dest: /home/acas/install_tmp/{{ scan_software }}
+        dest: /home/acas/{{ scan_software }}
+    - name: install nessus scanner from local repo
+      ansible.builtin.dnf:
+        name: /home/acas/{{ scan_software }}
+        disable_gpg_check: true
+        state: present
     - name: add firewall rule for scanner
       ansible.posix.firewalld:
         port: 8443/tcp

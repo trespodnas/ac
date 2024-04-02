@@ -10,7 +10,7 @@
         owner: acas
         group: acas
         mode: '0700'
-    - name: install SC from local repo
+    - name: install securityCenter from local repo
       ansible.builtin.dnf:
         name: /home/acas/CM-296116_SecurityCenter-6.1.1-el8.x86_64.rpm
         disable_gpg_check: true

@@ -67,16 +67,22 @@ check_if_ansible_is_installed () {
 kick_off_general_config_and_baseline_stig () {
   . "$HOME/.venv/bin/activate"
   SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$ALL_IPS" config-mgmt/basic_config.yml
+  pid=$!
+  wait $pid
 }
 
 kick_off_securitycenter_install () {
   . "$HOME/.venv/bin/activate"
   SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$SC_IP" config-mgmt/sc_config.yml
+  pid=$!
+  wait $pid
 }
 
 kick_off_nessus_install () {
   . "$HOME/.venv/bin/activate"
   SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$SCANNER_IPS" config-mgmt/scanner_config.yml
+  pid=$!
+  wait $pid
 }
 
 ## run area
@@ -87,6 +93,7 @@ upgrade_venv_pip
 check_if_ansible_is_installed
 kickoff_terraform
 gather_terraform_output
+sleep 15
 kick_off_general_config_and_baseline_stig
 kick_off_securitycenter_install
 kick_off_nessus_install

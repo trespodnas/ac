@@ -21,6 +21,10 @@
       ansible.builtin.systemd:
         name: firewalld
         state: restarted
+    - name: restart/start nessusd
+      ansible.builtin.systemd:
+        name: nessusd
+        state: restarted
 
 
 

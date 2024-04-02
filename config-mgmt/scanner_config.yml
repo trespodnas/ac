@@ -3,21 +3,20 @@
   hosts: all
   become: yes
   tasks:
-    - name: make temp dir for software
-      ansible.builtin.file:
-        path: /home/acas/install_tmp
-        owner: acas
-        group: acas
-        mode: '0700'
+    - name: copy file/rpm to host
+      ansible.builtin.copy:
+        src: ../tenable_files_repo/{{ scan_software }}
+        dest: /home/acas/install_tmp/{{ scan_software }}
     - name: add firewall rule for scanner
       ansible.posix.firewalld:
         port: 8443/tcp
         permanent: true
         state: enabled
-    - name: copy file/rpm to host
-      ansible.builtin.copy:
-        src: ../tenable_files_repo/{{ scan_software }}
-        dest: /home/acas/install_tmp/{{ scan_software }}
+    - name: restart firewalld
+      ansible.builtin.systemd:
+        name: firewalld
+        state: restarted
+
 
 
 

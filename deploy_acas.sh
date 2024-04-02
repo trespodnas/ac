@@ -44,13 +44,20 @@ create_venv_if_not_exist () {
 
 activate_venv () {
   if [ -d $PYTHON_VENV_PATH ]; then
-  activate "$HOME/.venv/bin/activate"
+  . "$HOME/.venv/bin/activate"
+  fi
+}
+
+upgrade_venv_pip () {
+  check=$(pip list |egrep ansible|wc -l)
+  if [ ! "$check" -gt 0 ]; then
+  pip install --upgrade pip
   fi
 }
 
 check_if_ansible_is_installed () {
   check=$(pip list |egrep ansible|wc -l)
-  if [ ! $check -gt 0 ]; then
+  if [ ! "$check" -gt 0 ]; then
   pip install ansible
   else
   echo "ansible check passed: $check"
@@ -60,6 +67,7 @@ check_if_ansible_is_installed () {
 check_dependencies
 create_venv_if_not_exist
 activate_venv
+upgrade_venv_pip
 check_if_ansible_is_installed
 kickoff_terraform
 gather_terraform_output

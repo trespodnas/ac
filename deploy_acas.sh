@@ -4,9 +4,9 @@ IP_PARSER='get_ips.py'
 IP_FILE='ips.json'
 TERRAFORM=$(which terraform)
 PYTHON=$(which python3)
-ANSIBLE_PLAYBOOK=$(which ansible-playbook)
 PYTHON_VENV_PATH="$HOME/.venv"
-#TFVARS='terraform.tfvars'
+DEFAULT_VM_ACAS_UN='acas'
+ALL_IPS=$(./$IP_PARSER $IP_FILE ip)
 SCANNER_IPS=$(./$IP_PARSER $IP_FILE scan)
 SC_IP=$(./$IP_PARSER $IP_FILE sc)
 
@@ -63,6 +63,11 @@ check_if_ansible_is_installed () {
   echo "ansible check passed: $check"
   fi
 }
+
+kick_off_general_config_and_baseline_stig () {
+  SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i $ALL_IPS config-mgmt/basic.yml
+}
+
 ## run area
 check_dependencies
 create_venv_if_not_exist
@@ -71,3 +76,4 @@ upgrade_venv_pip
 check_if_ansible_is_installed
 kickoff_terraform
 gather_terraform_output
+kick_off_general_config_and_baseline_stig

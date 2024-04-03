@@ -5,14 +5,14 @@
   tasks:
     - name: copy sc install/rpm to host
       ansible.builtin.copy:
-        src: ../tenable_files_repo/CM-296116_SecurityCenter-6.1.1-el8.x86_64.rpm
+        src: ../tenable_files_repo/{{ sc_software }}
         dest: /home/acas
         owner: acas
         group: acas
         mode: '0700'
     - name: install securityCenter from local repo
       ansible.builtin.dnf:
-        name: /home/acas/CM-296116_SecurityCenter-6.1.1-el8.x86_64.rpm
+        name: /home/acas/{{ sc_software }}
         disable_gpg_check: true
         state: present
     - name: add firewall rule for security center

@@ -31,7 +31,7 @@ kickoff_terraform () {
 }
 
 gather_terraform_output () {
-  $TERRAFORM output -json > $IP_FILE
+  $TERRAFORM output -json > $IP_FILE && sleep 15
 }
 
 create_venv_if_not_exist () {
@@ -93,7 +93,6 @@ upgrade_venv_pip
 check_if_ansible_is_installed
 kickoff_terraform
 gather_terraform_output
-sleep 15
 kick_off_general_config_and_baseline_stig
 kick_off_securitycenter_install
 kick_off_nessus_install

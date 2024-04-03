@@ -1,0 +1,2 @@
+Local repo:
+Place rpms for security center / tenable here

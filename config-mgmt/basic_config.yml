@@ -10,7 +10,7 @@
         timeout: 300
     - name: show os family
       debug:
-        msg: ansible_os_family
+        msg: Host OS = {{ ansible_os_family }}
     - name: check/install for updates after deployment
       when: ansible_os_family == 'Redhat'
       ansible.builtin.dnf:

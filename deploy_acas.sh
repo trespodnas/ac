@@ -49,7 +49,6 @@ activate_venv () {
 }
 
 upgrade_venv_pip () {
-  . "$HOME/.venv/bin/activate"
   check=$(pip list |egrep ansible|wc -l)
   if [ ! "$check" -gt 0 ]; then
   pip install --upgrade pip
@@ -57,7 +56,6 @@ upgrade_venv_pip () {
 }
 
 check_if_ansible_is_installed () {
-#  . "$HOME/.venv/bin/activate"
   check=$(pip list |egrep ansible|wc -l)
   if [ ! "$check" -gt 0 ]; then
   pip install ansible
@@ -67,21 +65,18 @@ check_if_ansible_is_installed () {
 }
 
 kick_off_general_config_and_baseline_stig () {
-#  . "$HOME/.venv/bin/activate"
   SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$ALL_IPS" config_mgmt/basic_config.yml
   pid=$!
   wait $pid
 }
 
 kick_off_securitycenter_install () {
-#  . "$HOME/.venv/bin/activate"
   SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$SC_IP" config_mgmt/sc_config.yml
   pid=$!
   wait $pid
 }
 
 kick_off_nessus_install () {
-#  . "$HOME/.venv/bin/activate"
   SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$SCANNER_IPS" config_mgmt/scanner_config.yml
   pid=$!
   wait $pid

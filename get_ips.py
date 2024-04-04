@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 from sys import argv
-
+from collections import OrderedDict
 
 def parse_file(file_name: str, get_item: str) -> str:
     file_input = Path(file_name.strip())
@@ -11,7 +11,7 @@ def parse_file(file_name: str, get_item: str) -> str:
         json_data = json.load(reader)
         ips = json_data['vm_private_ips']['value']
         vm_name = json_data['vm_name']['value']
-    output_list = dict(zip(vm_name, ips))
+    output_list = OrderedDict(zip(vm_name, ips))
     if get_item == 'ip':
         return f"{', '.join(ips)},"
     elif get_item == 'scan':

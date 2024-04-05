@@ -6,9 +6,7 @@ TERRAFORM=$(which terraform)
 PYTHON=$(which python3)
 PYTHON_VENV_PATH="$HOME/.venv"
 DEFAULT_VM_ACAS_UN='acas'
-ALL_IPS=$(./$IP_PARSER $IP_FILE ip)
-SCANNER_IPS=$(./$IP_PARSER $IP_FILE scan)
-SC_IP=$(./$IP_PARSER $IP_FILE sc)
+
 
 
 check_dependencies () {
@@ -67,18 +65,21 @@ check_if_ansible_is_installed () {
 }
 
 kick_off_general_config_and_baseline_stig () {
+  ALL_IPS=$(./$IP_PARSER $IP_FILE ip)
   SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$ALL_IPS" config_mgmt/basic_config.yml
   pid=$!
   wait $pid
 }
 
 kick_off_securitycenter_install () {
+  SC_IP=$(./$IP_PARSER $IP_FILE sc)
   SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$SC_IP" config_mgmt/sc_config.yml
   pid=$!
   wait $pid
 }
 
 kick_off_nessus_install () {
+  SCANNER_IPS=$(./$IP_PARSER $IP_FILE scan)
   SCP_IF_SSH=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --user $DEFAULT_VM_ACAS_UN --become-user root -i "$SCANNER_IPS" config_mgmt/scanner_config.yml
   pid=$!
   wait $pid

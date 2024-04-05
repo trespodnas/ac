@@ -2,6 +2,7 @@
 
 #### Requirements:
 * Python3
+* sh/bash shell
 * Azure cli, [az-cli download](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
 * Terraform cli, [terraform download](https://www.terraform.io/downloads)
 * Git cli, [Download git for MacOS](https://git-scm.com/download/mac), [Download git for Windoze](https://gitforwindows.org/)
@@ -28,6 +29,8 @@ Copy the "terraform.tfvars.template_file" & create a new file named "terraform.t
 where there template was located<br>
 Open the tfvars file with your editor and fill in
 resource_group_name/location, existing_vnet_name/location & existing_subnet_name<br>
+Copy the rpm files downloaded (per requirements) to the "tenable_files_repo" directory, check that the file names match up with vars in "config_mgmt/group_vars/all.yml"
+<br>
 
 #### Kick it off
 After the above steps are completed run the deploy_acas.sh script

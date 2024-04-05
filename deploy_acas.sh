@@ -32,6 +32,8 @@ kickoff_terraform () {
 
 gather_terraform_output () {
   $TERRAFORM output -json > $IP_FILE && sleep 15
+  pid=$!
+  wait $pid
 }
 
 create_venv_if_not_exist () {
